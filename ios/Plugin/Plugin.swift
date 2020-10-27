@@ -132,6 +132,28 @@ public class CapacitorMusicControls: CAPPlugin {
         
     }
     
+     @objc func updateDuration(_ call: CAPPluginCall) {
+        let options: Dictionary = call.options;
+ 
+        print("MusicControlsOptions:")
+        for optionLine in options {
+          print(optionLine)
+        }
+        
+        musicControlsInfo = CapacitorMusicControlsInfo(dictionary: options as NSDictionary);
+        
+        let duration = self.musicControlsInfo.duration;        
+
+        let nowPlayingInfoCenter = MPNowPlayingInfoCenter.default();
+        var nowPlayingInfo = nowPlayingInfoCenter.nowPlayingInfo;
+ 
+ 
+        nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = duration;
+        
+        nowPlayingInfoCenter.nowPlayingInfo = nowPlayingInfo
+
+        call.success();
+    }
     
     @objc func updateIsPlaying(_ call: CAPPluginCall) {
         
